@@ -218,13 +218,13 @@
           localStorage.removeItem(memoName);
         }
         init();
-        $("#yotei-kako").html("");
       });
 
       // 値がない時は何もしないように設定
       //もしデータがあればhtmlに要素を追加
       function init() {
         $(".kiroku-area").html("");
+        $("#yotei-kako").html("");
         $("#select-years").val(start0);
         $("#select-months").val(start0);
         $("#select-days").val(start0);
@@ -239,9 +239,17 @@
           } else {
             const jsonData = localStorage.getItem(memospaceK); //jsonデータを読み込み
             const data = JSON.parse(jsonData); //json形式から戻す
-            $(".kiroku-area").append(
-              `<div class="memospace2" id="memo${i}"><div class="hiduke2"><div class="hiduke2-1"><div id="kiroku-years_${i}"></div><div id="kiroku-months_${i}"></div><div id="kiroku-days_${i}"></div></div><div class="hiduke2-2"><div id="kiroku-hours_${i}"></div><div id="kiroku-minutes_${i}"></div></div></div><div class="kiroku"><div id="kiroku-text_${i}"></div></div><div class="yotei"><ul><li class="complete" id="${i}">対応完了＊</li></ul></div></div>`
-            );
+
+            if (data.isDone === 0) {
+              $(".kiroku-area").append(
+                `<div class="memospace2" id="memo${i}"><div class="hiduke2"><div class="hiduke2-1"><div id="kiroku-years_${i}"></div><div id="kiroku-months_${i}"></div><div id="kiroku-days_${i}"></div></div><div class="hiduke2-2"><div id="kiroku-hours_${i}"></div><div id="kiroku-minutes_${i}"></div></div></div><div class="kiroku"><div id="kiroku-text_${i}"></div></div><div class="yotei"><ul><li class="complete" id="${i}">対応完了＊</li></ul></div></div>`
+              );
+            } else {
+              $("#yotei-kako").append(
+                `<div class="memospace3" id="memo${i}"><div class="hiduke2"><div class="hiduke2-1"><div id="kiroku-years_${i}"></div><div id="kiroku-months_${i}"></div><div id="kiroku-days_${i}"></div></div><div class="hiduke2-2"><div id="kiroku-hours_${i}"></div><div id="kiroku-minutes_${i}"></div></div></div><div class="kiroku2"><div id="kiroku-text_${i}"></div></div>`
+              );
+            }
+
             $(`#kiroku-years_${i}`).text(data.year + "年");
             $(`#kiroku-months_${i}`).text(data.month + "月");
             $(`#kiroku-days_${i}`).text(data.day + "日");
@@ -266,8 +274,21 @@
         const jsonDataNew = JSON.stringify(data);
         localStorage.setItem(`memo${id}`, jsonDataNew);
         console.log(jsonDataNew);
-        // $(`#memo${id}`).remove();
+
+        const memoHtml = $(`#memo${id}`).prop("outerHTML");
+        const memoExists = $("#yotei-kako").find(`[id=memo${id}]`).length > 0;
+
+        if (!memoExists) {
+          $("#yotei-kako").append(memoHtml);
+        } else {
+          const $existingMemo = $("#yotei-kako").find(`[id=memo${id}]`);
+          $existingMemo.replaceWith(memoHtml);
+        }
+
+        $(`#memo${id}`).remove();
       });
+
+      // $(`#memo${id}`).remove();
 
       $("#ago").on("click", function () {
         const kakonokiroku = $("#yotei-kako");
