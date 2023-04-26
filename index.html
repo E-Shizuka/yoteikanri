@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>schedule</title>
+    <meta name="description" content="予定管理" />
+    <meta property="og:title" content="予定管理" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="#" />
+    <meta property="og:site_name" content="予定管理" />
+    <meta property="og:description" content="予定管理" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="canonical" href="#" />
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/sanitize.css" />
+    <link
+      href="https://fonts.googleapis.com/earlyaccess/kokoro.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- あらかじめcssを読み込んでいるので設定しなくてOK-->
+  </head>
+
+  <body>
+    <!-- ここから記述しよう -->
+
+    <div class="more" id="jinjairiguchi">
+      <div class="ookami-tokei">
+        <div class="mosirechuku">
+          <img src="img/tokei-moshirechuku.png" alt="モシレチク" />
+        </div>
+        <div class="m-tokei">
+          <div class="m-designtokei">
+            <div class="linehour"></div>
+            <div class="linemin"></div>
+            <div class="linesec"></div>
+          </div>
+        </div>
+        <div class="kotanechiku">
+          <img src="img/tokei-kotanechiku.png" alt="コタネチク" />
+        </div>
+        <div class="k-designtokei">
+          <div class="k-design" id="k-hour"></div>
+          <div class="k-design" id="k-min-10"></div>
+          <div class="k-design" id="k-min-1"></div>
+        </div>
+      </div>
+    </div>
+    <div class="yotei">
+      <ul>
+        <li id="ago">過去の予定</li>
+        <li id="clear">予定を削除</li>
+      </ul>
+    </div>
+    <div class="memospace">
+      <div class="hiduke">
+        <div class="tsukihi">
+          <select name="" id="select-years"></select>
+          <p>年</p>
+          <select name="" id="select-months"></select>
+          <p>月</p>
+          <select name="" id="select-days"></select>
+          <p>日</p>
+        </div>
+        <div class="yoteijikan">
+          <select name="" id="select-hours"></select>
+          <p>時</p>
+          <select name="" id="select-minutes"></select>
+          <p>分</p>
+        </div>
+      </div>
+      <textarea id="text_area"></textarea>
+      <div class="yotei">
+        <ul>
+          <li id="save">予定を追加</li>
+        </ul>
+      </div>
+    </div>
+    <div class="kiroku-area"></div>
+    <div class="taiouzumi">
+      <h2>対応済の予定</h2>
+      <p>（キャンセルを含む）</p>
+    </div>
+    <div id="yotei-kako"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // ここから記載
+
+      setInterval(() => {
+        // 現在時間を取得
+        const now = new Date();
+
+        const h = now.getHours(); // 時間（0〜23）
+        const m = now.getMinutes(); // 分（0〜59）
+        const s = now.getSeconds(); // 秒（0〜59）
+
+        // 針の角度に反映する
+
+        // 短針
+        const degH = h * (360 / 12) + m * (360 / 12 / 60);
+
+        // 分針
+        const degM = m * (360 / 60);
+
+        // 秒針
+        const degS = s * (360 / 60);
+
+        // const elementH = document.querySelector('.linehour');
+
+        const elementH1 = $(".linehour")[0];
+        // const elementH2 = $('.linehour')[1];
+
+        const elementM1 = $(".linemin")[0];
+        // const elementM2 = $('.linemin')[1];
+
+        const elementS1 = $(".linesec")[0];
+        // const elementS2 = $('.linesec')[1];
+
+        elementH1.style.transform = `rotate(${degH}deg)`;
+        // elementH2.style.transform = `rotate(${degH}deg)`;
+
+        elementM1.style.transform = `rotate(${degM}deg)`;
+        // elementM2.style.transform = `rotate(${degM}deg)`;
+
+        elementS1.style.transform = `rotate(${degS}deg)`;
+        // elementS2.style.transform = `rotate(${degS}deg)`;
+      }, 1000);
+
+      const start0 = "ー";
+      const startYear = 2023;
+      const endYear = 2050;
+      let optionY = "<option>" + start0 + "</option>";
+      for (let i = startYear; i <= endYear; i++) {
+        optionY += "<option>" + i + "</option>";
+      }
+      $("#select-years").html(optionY);
+
+      const startMonth = 1;
+      const endMonth = 12;
+      let optionM = "<option>" + start0 + "</option>";
+      for (let i = startMonth; i <= endMonth; i++) {
+        optionM += "<option>" + i + "</option>";
+      }
+      $("#select-months").html(optionM);
+
+      const startDay = 1;
+      const endDay = 31;
+      let optionD = "<option>" + start0 + "</option>";
+      for (let i = startDay; i <= endDay; i++) {
+        optionD += "<option>" + i + "</option>";
+      }
+      $("#select-days").html(optionD);
+
+      const startHour = 0;
+      const endHour = 23;
+      let optionH = "<option>" + start0 + "</option>";
+      for (let i = startHour; i <= endHour; i++) {
+        optionH += "<option>" + i + "</option>";
+      }
+      $("#select-hours").html(optionH);
+
+      const startMinute = 0;
+      const endMinute = 59;
+      let optionMi = "<option>" + start0 + "</option>";
+      for (let i = startMinute; i <= endMinute; i++) {
+        optionMi += "<option>" + i + "</option>";
+      }
+      $("#select-minutes").html(optionMi);
+
+      const memospaceK = [""];
+
+      //  保存
+      $("#save").on("click", function () {
+        // エリアに書いてあることをconst 値として取り出す
+
+        const sYears = $("#select-years").val();
+        const sMonths = $("#select-months").val();
+        const sDays = $("#select-days").val();
+        const sHours = $("#select-hours").val();
+        const sMinutes = $("#select-minutes").val();
+        const text = $("#text_area").val();
+
+        const data = {
+          year: sYears,
+          month: sMonths,
+          day: sDays,
+          hour: sHours,
+          minute: sMinutes,
+          text: text,
+          isDone: 0,
+        };
+
+        console.log(data);
+
+        const jsonData = JSON.stringify(data); //json形式に変換【JSON.stringify(変換するもの);】
+        for (let i = 0; true; i++) {
+          let memoName = "memo" + i;
+          if (!localStorage.getItem(memoName)) {
+            localStorage.setItem(memoName, jsonData);
+            break; //無限ループ回避のため必要
+          }
+        }
+        init();
+        console.log(jsonData);
+      });
+
+      // 削除
+      $("#clear").on("click", function () {
+        for (let i = 0; true; i++) {
+          let memoName = "memo" + i;
+          if (!localStorage.getItem(memoName)) {
+            break; //無限ループ回避のため必要
+          }
+          localStorage.removeItem(memoName);
+        }
+        init();
+        $("#yotei-kako").html("");
+      });
+
+      // 値がない時は何もしないように設定
+      //もしデータがあればhtmlに要素を追加
+      function init() {
+        $(".kiroku-area").html("");
+        $("#select-years").val(start0);
+        $("#select-months").val(start0);
+        $("#select-days").val(start0);
+        $("#select-hours").val(start0);
+        $("#select-minutes").val(start0);
+        $("#text_area").val(""); //エリアを空にする
+
+        for (let i = 0; true; i++) {
+          let memospaceK = "memo" + i;
+          if (!localStorage.getItem(memospaceK)) {
+            break; //無限ループ回避のため必要
+          } else {
+            const jsonData = localStorage.getItem(memospaceK); //jsonデータを読み込み
+            const data = JSON.parse(jsonData); //json形式から戻す
+            $(".kiroku-area").append(
+              `<div class="memospace2" id="memo${i}"><div class="hiduke2"><div class="hiduke2-1"><div id="kiroku-years_${i}"></div><div id="kiroku-months_${i}"></div><div id="kiroku-days_${i}"></div></div><div class="hiduke2-2"><div id="kiroku-hours_${i}"></div><div id="kiroku-minutes_${i}"></div></div></div><div class="kiroku"><div id="kiroku-text_${i}"></div></div><div class="yotei"><ul><li class="complete" id="${i}">対応完了＊</li></ul></div></div>`
+            );
+            $(`#kiroku-years_${i}`).text(data.year + "年");
+            $(`#kiroku-months_${i}`).text(data.month + "月");
+            $(`#kiroku-days_${i}`).text(data.day + "日");
+            $(`#kiroku-hours_${i}`).text(data.hour + "時");
+            $(`#kiroku-minutes_${i}`).text(data.minute + "分");
+            $(`#kiroku-text_${i}`).text(data.text);
+          }
+        }
+      }
+      init();
+
+      //【備考】jsで追加した（動的追加）htmlはリロードされるまでjsに認識されないのでdocumentからコードスタート。
+
+      $(document).on("click", ".complete", function () {
+        const id = $(this).attr("id");
+        console.log(id);
+        console.log($(`#memo${id}`).prop("outerHTML"));
+        const jsonData = localStorage.getItem(`memo${id}`); //jsonデータを読み込み
+        console.log(jsonData);
+        const data = JSON.parse(jsonData); //json形式から戻す
+        data.isDone = 1; //代入
+        const jsonDataNew = JSON.stringify(data);
+        localStorage.setItem(`memo${id}`, jsonDataNew);
+        console.log(jsonDataNew);
+        // $(`#memo${id}`).remove();
+      });
+
+      $("#ago").on("click", function () {
+        const kakonokiroku = $("#yotei-kako");
+        if (kakonokiroku.css("display") === "none") {
+          kakonokiroku.css("display", "block");
+          init();
+        } else {
+          kakonokiroku.css("display", "none");
+          init();
+        }
+      });
+
+      setInterval(() => {
+        // 現在時間を取得
+        const now = new Date();
+
+        const h = now.getHours(); // 時間（0〜23）
+        const h_eights = h % 8; // 8時間で区切る
+        const m = now.getMinutes(); // 分（0〜59）
+        const m_tens = Math.floor(m / 10); // 十の位の数字を取り出す
+        const m_ones = m % 10; // 一の位の数字を取り出す
+
+        if (h_eights === 1) {
+          $("#k-hour").html("弐");
+        } else if (h_eights === 2) {
+          $("#k-hour").html("参");
+        } else if (h_eights === 3) {
+          $("#k-hour").html("肆");
+        } else if (h_eights === 4) {
+          $("#k-hour").html("伍");
+        } else if (h_eights === 5) {
+          $("#k-hour").html("陸");
+        } else if (h_eights === 6) {
+          $("#k-hour").html("漆");
+        } else if (h_eights === 7) {
+          $("#k-hour").html("捌");
+        } else {
+          $("#k-hour").html("壱");
+        }
+
+        if (m_tens === 0) {
+          $("#k-min-10").html("零");
+        } else if (m_tens === 1) {
+          $("#k-min-10").html("壱");
+        } else if (m_tens === 2) {
+          $("#k-min-10").html("弐");
+        } else if (m_tens === 3) {
+          $("#k-min-10").html("参");
+        } else if (m_tens === 4) {
+          $("#k-min-10").html("肆");
+        } else {
+          $("#k-min-10").html("伍");
+        }
+
+        if (m_ones === 0) {
+          $("#k-min-1").html("零");
+        } else if (m_ones === 1) {
+          $("#k-min-1").html("壱");
+        } else if (m_ones === 2) {
+          $("#k-min-1").html("弐");
+        } else if (m_ones === 3) {
+          $("#k-min-1").html("参");
+        } else if (m_ones === 4) {
+          $("#k-min-1").html("肆");
+        } else if (m_ones === 5) {
+          $("#k-min-1").html("伍");
+        } else if (m_ones === 6) {
+          $("#k-min-1").html("陸");
+        } else if (m_ones === 7) {
+          $("#k-min-1").html("漆");
+        } else if (m_ones === 8) {
+          $("#k-min-1").html("捌");
+        } else {
+          $("#k-min-1").html("玖");
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

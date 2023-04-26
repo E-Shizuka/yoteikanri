@@ -1,0 +1,393 @@
+/*全体共通
+最初から設定してあるので特に変更
+しなくても大丈夫です♪
+-----------------*/
+
+@font-face {
+  font-family: "MyKokoro";
+  src: url("./../font/Kokoro.eot");
+  /* IE9 Compat Modes */
+  src: url("./../font/Kokoro.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */ url("./../font/Kokoro.otf") format("opentype");
+  /* Safari, Android, iOS */
+}
+
+body {
+  font-family: Garamond, "MyKokoro", serif;
+  src: url("https://cdn.leafscape.be/kokoro/Kokoro_web.woff2") format("woff2");
+  line-height: 1.75;
+  font-size: 16px;
+  user-select: none;
+}
+
+button,
+select,
+textarea {
+  font-family: Garamond, "Kokoro", "こころ明朝体", serif;
+  src: url("https://cdn.leafscape.be/kokoro/Kokoro_web.woff2") format("woff2");
+}
+
+/*パディングをサイズ内側にする処理*/
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*ーーーーーーーーーーー*/
+/*この下から記述*/
+/*ーーーーーーーーーーー*/
+
+.memospace {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid #958455 1px;
+  height: 80px;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 24px;
+  /* flex-direction: column; */
+}
+
+#yotei-kako {
+  display: none;
+}
+
+.memospace2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid #958455 1px;
+  height: 80px;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 24px;
+  /* flex-direction: column; */
+}
+
+.hiduke {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 15%;
+  height: 100%;
+  font-size: 70%;
+  border-right: solid #958455 1px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.hiduke2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 15%;
+  height: 100%;
+  font-size: 70%;
+  border-right: solid #958455 1px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.hiduke2-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hiduke2-2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tsukihi,
+.yoteijikan {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+select {
+  text-align: right;
+}
+
+textarea {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  width: 65%;
+  height: 100%;
+  font-size: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-right: solid #958455 1px;
+}
+
+.kiroku {
+  width: 65%;
+  height: 100%;
+  font-size: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-right: solid #958455 1px;
+}
+
+.yotei {
+  position: sticky;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 24px;
+  margin: 0 auto;
+}
+
+.yotei ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.yotei li {
+  padding: 8px;
+  margin: 8px;
+  /* background-color: rgb(212, 48, 65); */
+  background-color: #d43041;
+  color: white;
+  border-radius: 3px;
+  font-size: 1.5em;
+  width: auto;
+}
+
+.yotei li:active {
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+  border-bottom: none;
+}
+
+.taiouzumi {
+  text-align: center;
+}
+
+.more {
+  display: block;
+}
+
+.linehour {
+  width: 0;
+  height: 0;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 50px solid rgb(58, 35, 7);
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 2px);
+  transform-origin: bottom center;
+  transform: rotate(90deg);
+}
+
+.linehour::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  border: 2px solid rgb(58, 35, 7);
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% + 35px);
+  left: calc(50% + 0px);
+  transform: translate(-50%, -50%);
+  background-color: #c7af72;
+}
+
+.linehour::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: rgb(58, 35, 7);
+  transform: rotate(45deg) skew(15deg, 15deg);
+  position: absolute;
+  top: calc(50% + 20px);
+  left: calc(50% - 3px);
+}
+
+.linemin {
+  width: 0;
+  height: 0;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 70px solid rgb(58, 35, 7);
+  position: absolute;
+  top: calc(50% - 70px);
+  left: calc(50% - 2px);
+  transform-origin: bottom center;
+  transform: rotate(90deg);
+}
+
+.linemin::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  border: 2px solid rgb(58, 35, 7);
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% + 45px);
+  left: calc(50% + 0px);
+  transform: translate(-50%, -50%);
+  background-color: #c7af72;
+}
+
+.linemin::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: rgb(58, 35, 7);
+  transform: rotate(45deg) skew(15deg, 15deg);
+  position: absolute;
+  top: calc(50% + 30px);
+  left: calc(50% - 3px);
+}
+
+.linesec {
+  width: 0;
+  height: 0;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-bottom: 70px solid rgb(83, 51, 12);
+  position: absolute;
+  top: calc(50% - 70px);
+  left: calc(50% - 1px);
+  transform-origin: bottom center;
+  transform: rotate(90deg);
+}
+
+.linesec::before {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 3px;
+  border: 0.5px solid rgb(83, 51, 12);
+  border-radius: 50%;
+  position: absolute;
+  top: calc(50% + 40px);
+  left: calc(50% + 0px);
+  transform: translate(-50%, -50%);
+  background-color: #c7af72;
+}
+
+.linesec::after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  background-color: rgb(83, 51, 12);
+  transform: rotate(45deg) skew(15deg, 15deg);
+  position: absolute;
+  top: calc(50% + 30px);
+  left: calc(50% - 2.45px);
+}
+
+.ookami-tokei {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ookami-tokei img {
+  height: 256px;
+  margin: 8px;
+}
+
+.m-clock {
+  display: flex;
+  margin-right: 32px;
+}
+
+.m-designtokei {
+  border-radius: 50%;
+  border: 3px;
+  width: 160px;
+  height: 160px;
+  background: url(../img/m-tokei_bg.PNG);
+  background-size: cover;
+  position: relative;
+  justify-content: center;
+}
+
+.m-designtokei::before {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 7px;
+  background-color: rgb(58, 35, 7);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.kotanechiku {
+  margin-left: 32px;
+}
+
+.k-designtokei {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  margin: 2px;
+  font-size: 40px;
+  background-color: #ececec;
+  width: 160px;
+  text-align: center;
+}
+
+.k-design {
+  border: 1px solid #000;
+  margin: 2px;
+  background-color: #e4e4e4;
+  position: relative;
+  width: 30%;
+}
+
+.k-design::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0.5px;
+  background-color: #000;
+  transform: translateY(-50%);
+}
+
+/*どの部分のcssに対して
+命令をしているのかコメントを
+記載しよう！
+---------------------*/
+
+/*
+---------------------*/
+
+/*
+---------------------*/
+
+/*
+---------------------*/
+
+/*
+---------------------*/
